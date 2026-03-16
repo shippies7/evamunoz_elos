@@ -1809,43 +1809,64 @@ onMounted(() => {
 }
 
 @media (max-width: 768px) {
-  .three-cols {
+  .row.two-cols,
+  .row.three-cols {
     grid-template-columns: 1fr;
   }
 
   .launch-row {
-    width: 100vw;
-    margin-left: -1.2rem;
-    margin-right: -1.2rem;
+    width: calc(100vw - 1rem);
+    margin-left: calc(-50vw + 50% + 0.5rem);
+    margin-right: calc(-50vw + 50% + 0.5rem);
   }
 
-  .progress-card-expanded {
-    min-height: 380px;
-    padding: 1.8rem 1rem;
+  .progress-card-expanded,
+  .announcement-card,
+  .sensory-card {
+    min-height: auto;
+    padding: 1.6rem 1rem;
+    border-radius: 1.6rem;
+    box-shadow: 0 16px 30px rgba(35, 24, 14, 0.2);
   }
 
   .launch-title {
-    font-size: 1.6rem;
+    font-size: 1.55rem;
   }
 
   .countdown-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
   }
 
   .countdown-number {
-    font-size: 1.35rem;
+    font-size: 1.25rem;
   }
 
   .launch-text {
     font-size: 0.9rem;
     line-height: 1.4;
   }
+
+  .countdown-box {
+    padding: 0.8rem 0.5rem;
+  }
+
   .community-card,
   .community-card-alt,
   .announcement-card,
   .sensory-card,
   .action-card-alt {
-    padding: 1.3rem;
+    padding: 1.2rem;
+  }
+
+  .support-title,
+  .announcement-title,
+  .sensory-title {
+    font-size: 1.4rem;
+  }
+
+  .row {
+    gap: 1rem;
   }
 }
 
