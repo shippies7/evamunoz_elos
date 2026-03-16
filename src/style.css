@@ -1,0 +1,45 @@
+<template>
+  <div>
+    <h2 class="text-xl font-semibold mb-4">
+      Clase en vivo <span class="text-red-600">●</span>
+    </h2>
+
+    <!-- Botón para probar mostrar/ocultar -->
+    <button 
+      @click="toggle" 
+      class="px-4 py-2 bg-blue-600 text-white rounded mb-4"
+    >
+      Mostrar / Ocultar Zoom
+    </button>
+
+    <!-- Elementos que añade el SDK -->
+    <div id="zmmtg-root"></div>
+    <div id="aria-notify-area"></div>
+  </div>
+</template>
+
+<script setup>
+import { onMounted } from 'vue'
+import { ZoomMtg } from '@zoom/meetingsdk'
+
+// 🔹 Inicializa SOLO desde npm, sin CDN extra
+ZoomMtg.preLoadWasm()
+ZoomMtg.prepareWebSDK()
+
+function toggle() {
+  const el = document.getElementById('zmmtg-root')
+  el.style.display = (el.style.display === 'none') ? 'block' : 'none'
+}
+
+onMounted(() => {
+  console.log('✅ Meeting SDK preparado (preLoadWasm + prepareWebSDK)')
+})
+</script>
+
+<style scoped>
+#zmmtg-root {
+  min-height: 200px;
+  border: 1px dashed #ccc; /* para ubicarlo visualmente */
+}
+</style>
+
