@@ -1770,6 +1770,38 @@ onMounted(() => {
   grid-template-columns: repeat(3, 1fr);
 }
 
+@media (max-width: 1200px) {
+  .row.two-cols, .row.launch-row {
+    grid-template-columns: 1fr;
+  }
+
+  .launch-row {
+    width: calc(100vw - 2rem);
+    margin-left: calc(-50vw + 50% + 1rem);
+    margin-right: calc(-50vw + 50% + 1rem);
+  }
+
+  .progress-card-expanded {
+    min-height: 420px;
+    padding: 2rem 1.5rem;
+    border-radius: 1.8rem;
+  }
+
+  .launch-title {
+    font-size: 1.8rem;
+  }
+
+  .countdown-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+    padding: 0 0.25rem;
+  }
+
+  .countdown-box {
+    padding: 0.85rem 0.6rem;
+  }
+}
+
 @media (max-width: 1024px) {
   .three-cols {
     grid-template-columns: repeat(2, 1fr);
@@ -1779,6 +1811,41 @@ onMounted(() => {
 @media (max-width: 768px) {
   .three-cols {
     grid-template-columns: 1fr;
+  }
+
+  .launch-row {
+    width: 100vw;
+    margin-left: -1.2rem;
+    margin-right: -1.2rem;
+  }
+
+  .progress-card-expanded {
+    min-height: 380px;
+    padding: 1.8rem 1rem;
+  }
+
+  .launch-title {
+    font-size: 1.6rem;
+  }
+
+  .countdown-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .countdown-number {
+    font-size: 1.35rem;
+  }
+
+  .launch-text {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  .community-card,
+  .community-card-alt,
+  .announcement-card,
+  .sensory-card,
+  .action-card-alt {
+    padding: 1.3rem;
   }
 }
 
