@@ -1,21 +1,33 @@
 const crypto = require('crypto')
 
 module.exports = async (req, res) => {
+  res.setHeader('Content-Type', 'application/json')
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
   try {
-    const { meetingNumber, role } = req.body
+    const body =
+      typeof req.body === 'string'
+        ? JSON.parse(req.body)
+        : req.body || {}
 
-    const sdkKey = process.env.VITE_ZOOM_SDK_KEY
+    const { meetingNumber, role = 0 } = body
+
+    const sdkKey =
+      process.env.ZOOM_SDK_KEY || process.env.VITE_ZOOM_SDK_KEY
     const sdkSecret = process.env.ZOOM_SDK_SECRET
 
-    if (!sdkKey || !sdkSecret) {
-      return res.status(500).json({ error: 'Faltan credenciales de Zoom en el servidor.' })
+    if (!sdkKey) {
+      return res.status(500).json({ error: 'Falta ZOOM_SDK_KEY en Vercel.' })
     }
 
-    if (!meetingNumber && meetingNumber !== 0) {
+    if (!sdkSecret) {
+      return res.status(500).json({ error: 'Falta ZOOM_SDK_SECRET en Vercel.' })
+    }
+
+    if (!meetingNumber) {
       return res.status(400).json({ error: 'meetingNumber es requerido.' })
     }
 
@@ -30,7 +42,7 @@ module.exports = async (req, res) => {
     const payload = {
       sdkKey,
       mn: meetingNumber,
-      role: role ?? 0,
+      role,
       iat,
       exp,
       appKey: sdkKey,
@@ -46,22 +58,23 @@ module.exports = async (req, res) => {
 
     const encodedHeader = base64UrlEncode(header)
     const encodedPayload = base64UrlEncode(payload)
+    const message = `${encodedHeader}.${encodedPayload}`
 
-    const signatureBase = `${encodedHeader}.${encodedPayload}`
-
-    const hash = crypto
+    const signatureHash = crypto
       .createHmac('sha256', sdkSecret)
-      .update(signatureBase)
+      .update(message)
       .digest('base64')
       .replace(/=/g, '')
       .replace(/\+/g, '-')
       .replace(/\//g, '_')
 
-    const signature = `${signatureBase}.${hash}`
+    const signature = `${message}.${signatureHash}`
 
     return res.status(200).json({ signature })
   } catch (error) {
     console.error('Error generando signature:', error)
-    return res.status(500).json({ error: 'No se pudo generar la signature.' })
+    return res.status(500).json({
+      error: error?.message || 'No se pudo generar la signature.'
+    })
   }
 }
