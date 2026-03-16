@@ -21,7 +21,7 @@ const sdkKey = import.meta.env.VITE_ZOOM_SDK_KEY
 const meetingNumber = '81187185049'
 const passWord = '172413'
 const userName = 'Invitado'
-const leaveUrl = 'http://localhost:5173'
+const leaveUrl = 'https://evamunoz.org/vivo'
 
 async function entrarReunion() {
   try {
@@ -31,7 +31,7 @@ async function entrarReunion() {
     ZoomMtg.preLoadWasm()
     ZoomMtg.prepareWebSDK()
 
-    const response = await fetch('http://localhost:4000/signature', {
+    const response = await fetch('/api/signature', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
